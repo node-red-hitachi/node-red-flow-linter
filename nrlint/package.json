@@ -1,0 +1,43 @@
+{
+  "name": "nrlint",
+  "version": "0.0.1",
+  "description": "Flow linter for Node-RED",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "keywords": [],
+  "contributors": [
+    {
+      "name": "Kunihiko Toumura"
+    }
+  ],
+  "license": "Apache-2.0",
+  "bin": {
+    "nrlint": "./bin/nrlint.js"
+  },
+  "node-red": {
+    "nodes": {
+      "nrlint": "nr/nrlint.js"
+    }
+  },
+  "engines": {
+    "node": ">=8.15.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.13.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "grunt": "^1.0.3",
+    "grunt-eslint": "^21.0.0",
+    "grunt-mocha-istanbul": "^5.0.2",
+    "grunt-simple-mocha": "^0.4.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "clone": "^2.1.2",
+    "nopt": "^4.0.1"
+  }
+}
