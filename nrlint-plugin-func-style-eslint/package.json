@@ -14,7 +14,7 @@
   "license": "Apache-2.0",
   "node-red": {
     "nodes": {
-      "nrlint-plugin-func-style-eslint": "dist/pi.js"
+      "nrlint-plugin-func-style-eslint": "dist/plugin.js"
     }
   },
   "devDependencies": {

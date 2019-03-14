@@ -29,13 +29,13 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      template: 'src/pi.html',
+      template: 'src/plugin.html',
       inlineSource: 'temp.js',
-      filename: 'pi.html'
+      filename: 'plugin.html'
     }),
     new HtmlWebpackInlineSourcePlugin(),
     new CopyWebpackPlugin([
-      { from: 'src/pi.js' },
+      { from: 'src/plugin.js' },
       { from: 'src/rule.js' }
     ]),
     new CleanWebpackPlugin(['dist/temp.js'])

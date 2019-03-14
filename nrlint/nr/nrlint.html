@@ -169,10 +169,13 @@
 <script type="text/javascript">
     var lcontent = $("<div>").css({ "position": "relative", "height": "100%" });
     var ltoolbar = $('<div class="sidebar-header">' +
-        // '<span class="button-group"><a id="lint-tab-check" class="sidebar-header-button" href="#"><i class="fa fa-check-square-o"></i> <span></span></a></span>'+
-        '<span class="button-group"><a id="lint-tab-clear" class="sidebar-header-button" href="#"><i class="fa fa-trash"></i></a></span></div>').appendTo(lcontent);
+        '<span class="button-group">' +
+        '<a id="lint-tab-clear" class="sidebar-header-button" href="#">' +
+        '<i class="fa fa-trash"></i></a></span></div>').appendTo(lcontent);
     var lfooterToolbar = $('<div>' +
-        '<span class="button-group"><a id="lint-tab-open" class="sidebar-footer-button" href="#"><i class="fa fa-desktop"></i></a></span></div>');
+        '<span class="button-group">' +
+        '<a id="lint-tab-open" class="sidebar-footer-button" href="#">' +
+        '<i class="fa fa-desktop"></i></a></span></div>');
 
     XRED.util = (function () {
         function normalisePluginName(name) {
@@ -215,7 +218,6 @@
     function doLint() {
         var config = RED.settings.nrlint;
         var afs = new XRED.flowmanip.FlowSet();  // create sim for node objects
-        //console.log(JSON.stringify(afs,null,2));
         var result = [];
         for (const r in config.rules) {
             if (config.rules.hasOwnProperty(r)) {
@@ -224,23 +226,18 @@
                     var rule = window[pname];
                     console.log('load:' + pname + ',' + JSON.stringify(rule, null, 2));
                     Array.prototype.push.apply(result, rule.check(afs, config.rules[r]));
-                    console.log('result = ' + JSON.stringify(result, null, 0));
                 }
             }
         }
 
-        //var result = [];
         $(".lint-message").remove();
-        //var formattedResult = JSON.stringify(result,null,2);
         displayResult(result);
-        //$('<div class="lint-message lint-message-'+Date.now()+'">'+formattedResult+'</div>').appendTo(lcontent);
 
         return "doLint() called.";
     }
 
     RED.events.on("nodes:change", function (state) {
         console.log("nrlint - nodechange handler");
-        //var nodeset = RED.nodes.createCompleteNodeSet();
         var result = doLint();
     });
 
@@ -266,25 +263,9 @@
     });
     RED.actions.add("example:show-lint-tab", function () { RED.sidebar.show("lint") });
 
-    //ltoolbar.find("#lint-tab-check").click(function(e) {
-    //    e.preventDefault();
-    // display result.
-    //    var formattedResult = doLint();
-    //    $('<div class="lint-message lint-message-'+Date.now()+'">'+formattedResult+'</div>').appendTo(lcontent);
-    //});
-
     ltoolbar.find("#lint-tab-clear").click(function (e) {
         e.preventDefault();
         $(".lint-message").remove();
     });
 
 </script>
-
-<!--
-<script type="text/x-red" data-template-name="nrlint">
-    <div class="form-row">
-        <label for="node-config-input-dummy"><i class="icon-tag"></i> Dummy</label>
-        <input type="text" id="node-config-input-dummy" placeholder="dummy">
-    </div>
-</script>
--->

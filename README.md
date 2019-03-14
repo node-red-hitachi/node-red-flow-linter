@@ -14,7 +14,7 @@ This repository contains following 3 modules.
 
 ## Usage
 
-### In Node-RED Editor
+### From Node-RED Editor
 - clone this repository
 ```
  % git clone https://github.com/node-red-hitachi/node-red-flow-linter.git
@@ -41,7 +41,8 @@ This repository contains following 3 modules.
 ```
  % npm start
 ```
- 
+...then, lint tab (marked with paw) will be appeared.
+
 ### From Command-line
 - clone this repository
 ```
@@ -67,7 +68,7 @@ module.exports = {
  % export NODE_PATH=$(npm root -g)
 ```
 
-- run Node-RED
+- run nrlint command
 ```
  % nrlint /path/to/flow.json
 ```

@@ -22,7 +22,7 @@
   },
   "node-red": {
     "nodes": {
-      "nrlint-plugin-no-func-name": "dist/pi-test.js"
+      "nrlint-plugin-no-func-name": "dist/plugin.js"
     }
   }
 }
