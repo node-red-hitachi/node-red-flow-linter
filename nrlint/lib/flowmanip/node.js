@@ -1,8 +1,8 @@
 /* node */
 const utils = require('./utils.js');
 
-/** Class for Node (incl. subflow instances) */
-class Node {
+/** Class for FMNode (incl. subflow instances) */
+class FMNode {
     /**
      * constructor
      * @param {string} id - node id.
@@ -18,7 +18,7 @@ class Node {
     /**
      * connect two nodes
      * @param {number} fromport - node port number of this node
-     * @param {Node} nextnode - reference to next node
+     * @param {FMNode} nextnode - reference to next node
      */
     connectTo(fromport, nextnode) {
         this.wires[fromport].push(nextnode.id);
@@ -28,7 +28,7 @@ class Node {
     /**
      * unconnect designated node with the node
      * @param {number} fromport - portnumber. if -1, remove all occurrence of nextnode
-     * @param {Node} nextnode 
+     * @param {FMNode} nextnode 
      */
     unconnectTo(fromport, nextnode) {
         if (fromport == -1) {
@@ -42,4 +42,4 @@ class Node {
     }
 };
 
-module.exports = Node;
+module.exports = FMNode;

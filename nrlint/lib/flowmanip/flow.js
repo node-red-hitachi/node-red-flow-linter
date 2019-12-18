@@ -5,7 +5,7 @@ const utils = require('./utils.js');
  * This object manages nodes in the Flow.
  * It doesn't contain nodes which are linked by link nodes.
  */
-class Flow {
+class FMFlow {
     /**
      * Construct a flow.
      * @constructor
@@ -14,7 +14,7 @@ class Flow {
     constructor(id, name) {
         this.id = id || utils.genId();
         this.name = name || "";  
-        this.nodes = []; // [Node]
+        this.nodes = []; // [FMNode]
     }
 
     /**
@@ -67,7 +67,7 @@ class Flow {
 
     /**
      * insert node
-     * @param {Node} node - a node to be inserted
+     * @param {FMNode} node - a node to be inserted
      * @param {number} wid - a node port to be connected
      * @param {string} pnid - id of the node in front of inserting node
      * @param {number} pport - port number of previous node
@@ -107,7 +107,7 @@ class Flow {
 
     /**
      * analyse difference of two flows
-     * @param {Flow} flow flow to be compared
+     * @param {FMFlow} flow flow to be compared
      * @returns {Object} node ids of added, deleted, and changed nodes 
      */
     diff(flow) {
@@ -115,4 +115,4 @@ class Flow {
     }
 };
 
-module.exports = Flow;
+module.exports = FMFlow;

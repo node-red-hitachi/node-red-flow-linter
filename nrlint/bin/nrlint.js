@@ -56,8 +56,8 @@ console.log(`parsing ${flowFile}...`);
 const flowstr = fs.readFileSync(flowFile);
 const flowobj = JSON.parse(flowstr);
 
-function printResult(res) {
-    console.log(JSON.stringify(res, null, 2));
+function printResult(res) {  // TODO: customizable output format
+    console.log(JSON.stringify(res.result, null, 2));
 }
 
 const result = linter.doLint(flowobj, config).then(printResult);

@@ -1,10 +1,10 @@
 'use strict';
 /* complete flow set (corresponds to one "flow.json" file) */
 const clone = require('clone');
-const Flow = require('./flow.js');
-const SubFlow = require('./subflow.js');
-const Node = require('./node.js');
-const Config = require('./config.js'); 
+const FMFlow = require('./flow.js');
+const FMSubFlow = require('./subflow.js');
+const FMNode = require('./node.js');
+const FMConfig = require('./config.js'); 
 
 /** Class for complete flow set */
 class FlowSet {
@@ -15,9 +15,9 @@ class FlowSet {
      * @todo merge createModel() of index.js.
      */
     constructor() {
-        this.flows = []; // [Flow]
-        this.configs = []; // [Config]
-        this.subflows = []; // [SubFlow]
+        this.flows = []; // [FMFlow]
+        this.configs = []; // [FMConfig]
+        this.subflows = []; // [FMSubFlow]
         this.links = []; //  [{source:, target:}]
     }
 
@@ -200,19 +200,19 @@ class FlowSet {
 
         const flowIds = Object.keys(flowreg.flows);
         for (const fid of flowIds) {
-            const f = new Flow(fid);
+            const f = new FMFlow(fid);
             f.name = flowreg.flows[fid].name;
             f.nodes = [...Object.values(flowreg.flows[fid].nodes)];
             fs.flows.push(f);
         }
         const configIds = Object.keys(flowreg.configs);
         for (const cid of configIds) {
-            const c = new Config(cid);
+            const c = new FMConfig(cid);
             fs.configs.push({...flowreg.configs[cid]});
         }
         const subflowIds = Object.keys(flowreg.subflows);
         for (const sfid of subflowIds) {
-            const sf = new SubFlow(sfid);
+            const sf = new FMSubFlow(sfid);
             sf.name = flowreg.subflows[sfid].name;
             const nids = Object.keys(flowreg.allNodes);
             sf.nodes = nids.map(nid => flowreg.allNodes[nid]).filter(n => n.z === sfid);
@@ -243,7 +243,7 @@ class FlowSet {
     /**
      * get node by id.  
      * @param {string} nid 
-     * @return {Node} if not found, returns null.
+     * @return {FMNode} if not found, returns null.
      */
     getNode(nid) {
         const flownodes = this.flows.map(f => f.getNode(nid)).filter(n => n !== null);
@@ -267,7 +267,7 @@ class FlowSet {
     /**
      * get flow node by id.
      * @param {string} fid id of flow node
-     * @return {Flow} flow node or undefined if not found
+     * @return {FMFlow} flow node or undefined if not found
      */
     getFlow(fid) {
         return this.flows.find(f => f.id === fid);
@@ -276,7 +276,7 @@ class FlowSet {
     /**
      * get config node by id.
      * @param {string} cid id of config node
-     * @returns {Config} config node or undefined if not found
+     * @returns {FMConfig} config node or undefined if not found
      */
     getConfig(cid) {
         return this.configs.find(c => c.id === cid);
@@ -285,7 +285,7 @@ class FlowSet {
     /**
      * get subflow node instance
      * @param {string} sid id of subflow node
-     * @returns {Subflow} subflow node (instance) or undefined if not found
+     * @returns {FMSubflow} subflow node (instance) or undefined if not found
      */
     getSubflow(sid) {
         return this.configs.find(s => s.id === sid);
@@ -312,7 +312,7 @@ class FlowSet {
 
     /**
      * insert node
-     * @param {Node} node - a node to be inserted
+     * @param {FMNode} node - a node to be inserted
      * @param {number} wid - a node port to be connected
      * @param {string} pnid - id of the node in front of inserting node
      * @param {number} pport - port number of previous node
@@ -373,6 +373,44 @@ class FlowSet {
                 .filter(e=>visitedNodes.indexOf(e) < 0 && visitingNodes.indexOf(e) < 0)
                 .reduce((acc,e)=>acc.indexOf(e)<0?[...acc, e]:acc, []); // uniq
             visitingNodes.push(...unvisitedNeighbours);
+        }
+        return visitedNodes;
+    }
+
+    /**
+     * get downstream nodes by id
+     * @param {string} nid node id
+     * @returns {string[]} node ids 
+     */
+    downstream(nid) {
+        let visitedNodes = [];
+        let visitingNodes = [nid];
+        while (visitingNodes.length > 0) {
+            const nn = visitingNodes.shift();
+            visitedNodes.push(nn);
+            const unvisitedDownstream = [...this.next(nn)]
+                .filter(e => visitedNodes.indexOf(e) < 0 && visitingNodes.indexOf(e) < 0)
+                .reduce((acc,e) => acc.indexOf(e)<0?[...acc, e]:acc, []);
+            visitingNodes.push(...unvisitedDownstream);
+        }
+        return visitedNodes;
+    }
+
+    /**
+     * get upstream nodes by id
+     * @param {string} nid node id
+     * @returns {string[]} node ids 
+     */
+    upstream(nid) {
+        let visitedNodes = [];
+        let visitingNodes = [nid];
+        while (visitingNodes.length > 0) {
+            const nn = visitingNodes.shift();
+            visitedNodes.push(nn);
+            const unvisitedUpstream = [...this.prev(nn)]
+                .filter(e => visitedNodes.indexOf(e) < 0 && visitingNodes.indexOf(e) < 0)
+                .reduce((acc,e) => acc.indexOf(e)<0?[...acc, e]:acc, []);
+            visitingNodes.push(...unvisitedUpstream);
         }
         return visitedNodes;
     }

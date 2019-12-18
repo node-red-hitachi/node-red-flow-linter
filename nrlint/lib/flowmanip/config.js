@@ -3,7 +3,7 @@
 const utils = require('./utils.js');
 
 /** Class for config node */
-class Config {
+class FMConfig {
 
     /**
      * constructor
@@ -16,4 +16,4 @@ class Config {
     }
 };
 
-module.exports = Config;
+module.exports = FMConfig;

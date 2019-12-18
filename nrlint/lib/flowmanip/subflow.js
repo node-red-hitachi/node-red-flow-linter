@@ -2,7 +2,7 @@
 const utils = require('./utils.js');
 
 /** Class for subflow container node (not instance) */
-class SubFlow {
+class FMSubFlow {
 
     /**
      * constructor
@@ -24,7 +24,7 @@ class SubFlow {
 
     /**
      * add node to the subflow
-     * @param {Node} node 
+     * @param {FMNode} node 
      */
     addNode(node) {
         this.nodes.push(node);
@@ -65,7 +65,7 @@ class SubFlow {
 
     /**
      * insert node (between ordinal nodes) 
-     * @param {Node} tnode node to be inserted.
+     * @param {FMNode} tnode node to be inserted.
      * @param {number} tport port number for connect to next node
      * @param {string} pnid previous node.
      * @param {number} pport previout node's port
@@ -126,7 +126,7 @@ class SubFlow {
 
     /**
      * analyse difference of two flows
-     * @param {Flow} flow flow to be compared
+     * @param {FMFlow} flow flow to be compared
      * @returns {Object} node ids of added, deleted and change nodes  
      */
     diff(flow) {
@@ -134,4 +134,4 @@ class SubFlow {
     }
 };
 
-module.exports = SubFlow;
+module.exports = FMSubFlow;
