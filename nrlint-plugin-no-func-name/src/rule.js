@@ -9,10 +9,10 @@ function check (afs, conf, cxt) {
     var verified = funcs
         .filter(function (e) {return e.name === undefined || e.name === "";})
         .map(function (e){
-            return {rule:"no-func-name", id: e.id, result: conf};
+            return {rule:"no-func-name", ids: [e.id], info: conf};
         });
 
-    return verified;
+        return {context: cxt, result: verified};
 }
 
 module.exports = {

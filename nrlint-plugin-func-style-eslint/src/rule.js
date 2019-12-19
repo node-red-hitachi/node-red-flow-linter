@@ -11,10 +11,10 @@ function check(afs, conf, cxt) {
         .map(function (e) {
             var f = "function dummy(msg) {\n" + e.func + "\n};";
             var result = linter.verify(f, {rules: conf});
-            return (result.length == 0 ? {} : {rule:"func-style-eslint", id:e.id, func:e.func, result: result});
+            return (result.length == 0 ? {} : {rule:"func-style-eslint", ids: [e.id], info:{func:e.func, option: result}});
         })
         .filter(function (e) {return e.hasOwnProperty("rule");});
-    return verified;
+    return {context:cxt, result: verified};
 }
 
 module.exports = {
