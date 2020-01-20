@@ -9,7 +9,7 @@ function check (afs, conf, cxt) {
     var verified = funcs
         .filter(function (e) {return e.name === undefined || e.name === "";})
         .map(function (e){
-            return {rule:"no-func-name", ids: [e.id], info: conf};
+            return {rule:"no-func-name", ids: [e.id], severity: "warn", name: "no-func-name", message: "function node has no name"};
         });
 
         return {context: cxt, result: verified};

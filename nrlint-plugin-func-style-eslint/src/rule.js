@@ -11,7 +11,8 @@ function check(afs, conf, cxt) {
         .map(function (e) {
             var f = "function dummy(msg) {\n" + e.func + "\n};";
             var result = linter.verify(f, {rules: conf});
-            return (result.length == 0 ? {} : {rule:"func-style-eslint", ids: [e.id], info:{func:e.func, option: result}});
+            return (result.length == 0 ? {} : {rule:"func-style-eslint", ids: [e.id], name: "func-style-eslint", severity: "warn",
+                                               message: "style mismatch in function node", additionalInfo:{func:e.func, option: result}});
         })
         .filter(function (e) {return e.hasOwnProperty("rule");});
     return {context:cxt, result: verified};

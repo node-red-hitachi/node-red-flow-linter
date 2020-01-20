@@ -57,7 +57,19 @@ const flowstr = fs.readFileSync(flowFile);
 const flowobj = JSON.parse(flowstr);
 
 function printResult(res) {  // TODO: customizable output format
-    console.log(JSON.stringify(res.result, null, 2));
+    let errCount = 0;
+    let warnCount = 0;
+
+    console.log(flowFile);
+    res.result.forEach((e) => {
+        console.log(`  ${e.ids[0]}${e.ids.length>1?"...":""}\t${e.severity}\t'${e.message}'\t${e.name}`);
+        if (e.severity === "error") {
+            errCount += 1;
+        } else if (e.severity === "warn") {
+            warnCount += 1;
+        }
+    });
+    console.log(`✖ ${errCount+warnCount} problems (${errCount} errors, ${warnCount} warnings)`);
 }
 
 const result = linter.doLint(flowobj, config).then(printResult);

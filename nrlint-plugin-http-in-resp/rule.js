@@ -7,7 +7,7 @@ function check (afs, conf, cxt) {
             const ds = afs.downstream(e.id);
             return ds.length === 0 || ds.every(i => afs.getNode(i).type != 'http response');
         })
-        .map(e => ({rule:"http-in-resp", ids: [e.id], info: "dangling http-in node"}));
+        .map(e => ({rule:"http-in-resp", ids: [e.id], name: "dangling-http-in", severity: "error", message: "dangling http-in node"}));
 
     const danglingHttpResponses = afs.getAllNodesArray()
         .filter(e => e.type==='http response')
@@ -15,7 +15,7 @@ function check (afs, conf, cxt) {
             const ds = afs.upstream(e.id);
             return ds.length === 0 || ds.every(i => afs.getNode(i).type != 'http in');
         })
-        .map(e => ({rule:"http-in-resp", ids: [e.id], info: "dangling http-response node"}));
+        .map(e => ({rule:"http-in-resp", ids: [e.id], name: "dangling-http-resp", severity: "error", message: "dangling http-response node"}));
 
     return {context: cxt, result: danglingHttpIns.concat(danglingHttpResponses)};
 }
